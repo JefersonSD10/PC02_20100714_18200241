@@ -7,7 +7,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import dev.jj.myapplication.AddTransactionFragment
 import dev.jj.myapplication.MainActivity
 import dev.jj.myapplication.R
 
