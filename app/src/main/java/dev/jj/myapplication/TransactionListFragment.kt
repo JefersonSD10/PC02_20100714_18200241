@@ -15,7 +15,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class TransactionListFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
-    private lateinit var userId: String
     private lateinit var transactionAdapter: TransactionAdapter
     private lateinit var transactions: MutableList<Transaction>
 
@@ -30,18 +29,24 @@ class TransactionListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         db = FirebaseFirestore.getInstance()
-        userId = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
-        transactions = mutableListOf()
-        transactionAdapter = TransactionAdapter(transactions)
+        val currentUser = FirebaseAuth.getInstance().currentUser
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.rvTransactions)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = transactionAdapter
+        if (currentUser != null) {
+            val userId = currentUser.uid
+            transactions = mutableListOf()
+            transactionAdapter = TransactionAdapter(transactions)
 
-        loadTransactions(view)
+            val recyclerView = view.findViewById<RecyclerView>(R.id.rvTransactions)
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.adapter = transactionAdapter
+
+            loadTransactions(view, userId)
+        } else {
+            Toast.makeText(context, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun loadTransactions(view: View) {
+    private fun loadTransactions(view: View, userId: String) {
         db.collection("users").document(userId).collection("movements")
             .get()
             .addOnSuccessListener { result ->
@@ -54,7 +59,6 @@ class TransactionListFragment : Fragment() {
                 }
                 transactionAdapter.notifyDataSetChanged()
 
-                // Actualizar el balance total en el TextView
                 val balanceTextView = view.findViewById<TextView>(R.id.tvBalance)
                 balanceTextView.text = "Balance Total: $${balanceTotal}"
             }
@@ -63,5 +67,6 @@ class TransactionListFragment : Fragment() {
             }
     }
 }
+
 
 
