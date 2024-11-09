@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "138736157524",
+    "project_id": "pc2dam-e2e42",
+    "storage_bucket": "pc2dam-e2e42.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138736157524:android:c3414b28e453471edebec1",
+        "android_client_info": {
+          "package_name": "dev.jj.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDynY3aCB4jTPRYQQ3vxzTuHR6gL3GZKWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
