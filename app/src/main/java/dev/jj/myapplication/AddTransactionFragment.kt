@@ -13,19 +13,26 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class AddTransactionFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
-    private lateinit var userId: String
+    private var userId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): android.view.View? {
+    ): View? {
         return inflater.inflate(R.layout.fragment_add_transaction, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         db = FirebaseFirestore.getInstance()
-        userId = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
+        userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        // Verifica que el usuario esté autenticado
+        if (userId == null) {
+            Toast.makeText(context, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
+            // Aquí podrías redirigir al usuario a LoginActivity o cerrar el fragmento
+            return
+        }
 
         val dateEditText = view.findViewById<EditText>(R.id.etDate)
         val descriptionEditText = view.findViewById<EditText>(R.id.etDescription)
@@ -42,6 +49,9 @@ class AddTransactionFragment : Fragment() {
     }
 
     private fun saveTransaction(date: String, description: String, amount: Double) {
+        // Asegúrate de que userId no sea null antes de intentar guardar
+        val userId = userId ?: return
+
         val transaction = hashMapOf(
             "date" to date,
             "description" to description,
