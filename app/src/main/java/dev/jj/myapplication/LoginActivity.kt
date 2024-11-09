@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import dev.jj.myapplication.AddTransactionFragment
+import dev.jj.myapplication.MainActivity
 import dev.jj.myapplication.R
 
 class LoginActivity : AppCompatActivity() {
@@ -42,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Inicio de sesión exitoso, navegar a la actividad principal
-                        startActivity(Intent(this, AddTransactionFragment::class.java))
+                        startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     } else {
                         // Error en la autenticación
